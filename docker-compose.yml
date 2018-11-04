@@ -1,0 +1,32 @@
+version: "3"
+services:
+
+  nameko-simple-storage:
+    container_name: nameko-simple-storage
+    image: nameko-simple-storage
+    build: .
+    depends_on:
+      - redis
+      - rabbitmq
+    environment:
+      RABBITMQ_USER: "guest"
+      RABBITMQ_PASSWORD: "guest"
+      RABBITMQ_HOST: "192.168.1.90"  # Put the right IP here
+      REDIS_HOST: "192.168.1.90"     # Put the right IP here
+      REDIS_PORT: "6379"
+      REDIS_DB: "0"
+    restart: always
+
+  redis:
+    container_name: redis
+    image: redis
+    ports:
+      - "6379:6379"
+    restart: always
+
+  rabbitmq:
+    container_name: rabbitmq
+    image: rabbitmq
+    ports:
+      - "5672:5672"
+    restart: always
